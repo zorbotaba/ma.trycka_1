@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my.trycka Bestellformular</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            padding: 10px;
+            font-size: 14px;
+            margin: 5px 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .thank-you-message {
+            padding: 20px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px;
+            background-color: #5cb85c;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .form-header {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .instructions {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .add-product-btn-container {
+            margin-top: 10px; /* Button weiter nach oben verschoben */
+            display: flex;
+            justify-content: flex-start;
+        }
+        .add-product-btn {
+            padding: 5px 10px;
+            background-color: transparent;
+            color: #000; /* Schwarzer Text */
+            font-size: 12px;
+            border: 1px solid #ff9800;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none; /* Keine Unterstreichung */
+        }
+        .add-product-btn:hover {
+            background-color: #ffeb3b;
+        }
+        .product-item {
+            margin-bottom: 20px;
+        }
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;b
+            border-radius: 5px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .shipping-method {
+            background-color: white;
+            color: #333; /* Textfarbe */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        /* Standard-Stil für alle select-Elemente */
+        select {
+            background-color: white; /* Hintergrundfarbe */
+            color: #333; /* Textfarbe */
+            border: 1px solid #ccc; /* Rahmen */
+            border-radius: 5px; /* Abgerundete Ecken */
+            padding: 10px;
+            font-size: 14px;
+            appearance: none; /* Entfernt den Standardstil */
+            -webkit-appearance: none; /* Für Safari */
+            -moz-appearance: none; /* Für Firefox */
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="%23333"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            padding-right: 30px; /* Platz für den Pfeil */
+        }
+
+        /* Stil für Versandart-Select */
+        /* Stil für Versandart-Select */
+        select.no-background {
+            background-color: transparent; /* Hintergrund transparent */
+            color: #333; /* Textfarbe */
+            border: 1px solid #ccc; /* Rahmen */
+            border-radius: 5px; /* Abgerundete Ecken */
+            padding: 10px;
+            font-size: 14px;
+            appearance: none; /* Entfernt Standard-Browser-Stile */
+            -webkit-appearance: none; /* Safari */
+            -moz-appearance: none; /* Firefox */
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="%23333"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center; /* Position des Pfeils */
+            background-size: 12px; /* Größe des Pfeils */
+            padding-right: 30px; /* Platz für den Pfeil */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div style="display: flex; align-items: center;">
+            <img src="Logo.png" alt="ma.trycka Logo" width="60" height="60">
+            <head style="margin-left: 10px; font-size: 1.5em;">ma.trycka</head>
+        </div>
+        
+        <h1>Bestellformular</h1>
+        
+      
+        <div class="instructions">
+            <p>Ist eine Farbe nicht mehr aufgelistet, ist diese nicht mehr verfügbar. Die Liste wird fortlaufend von mir aktualisiert. Sollte beim Druck ein Problem auftreten, melde ich mich direkt bei der entsprechenden Person.</p><p>Kästchen mit einem Stern (*) sind Pflichtfelder.</p>
+            <p><strong>Produkt- und Preisliste:</strong></p>
+            <a href="Farb-, Produkt- und Preisliste_ma.trycka.pdf" target="_blank" style="color: #5cb85c; text-decoration: underline;">
+Für die Produkt- und Preisliste hier klicken.
+</a>      
+            
+        </div>
+
+        <form id="orderForm">
+            <!-- Firma/Schule -->
+            <label for="firma">Firma/Schule (optional)</label>
+            <input type="text" id="firma" name="firma" required placeholder="Musterfirma">
+
+            <!-- Name -->
+            <label for="name">Vollständiger Name *</label>
+            <input type="text" id="name" name="name" required placeholder="Max Mustermann">
+           
+            <!-- Adresse -->
+            <label for="street">Straße *</label>
+            <input type="text" id="street" name="street" required placeholder="Musterstr. Nr">
+
+            <label for="zipcode">PLZ/Ort *</label>
+            <input type="text" id="zipcode" name="zipcode" required placeholder="Postleizahl Ort">
+
+            <!-- Telefonnummer -->
+            <label for="phone">Handynummer *</label>
+            <input type="tel" id="phone" name="phone" required placeholder="077 000 00 00">
+
+            <!-- E-Mail-Adresse -->
+            <label for="email">Mailadresse *</label>
+            <input type="email" id="email" name="email" required placeholder="muster@mann.ch">
+
+            <label for="versandart">Versandart *</label>
+                <select name="versandart" class="no-background" required aria-placeholder="Versandart">
+                    <option value="">Versandart</option>
+                    <option value="Abholung in Wolfhausen ZH">Abholung in Wolfhausen ZH</option>
+                    <option value="Postversand (+ 8.5.-)">Postversand (+ 8.5.-)</option>
+                </select> 
+
+            <!-- Rabattcode -->
+            <div id="discountCodeField">
+                <label for="discountCode">Rabattcode/Code (optional, nur falls vorhanden)</label>
+                <input type="text" id="discountCode" name="discountCode" oninput="handleDiscountCode()">
+            </div>
+
+            <!-- Angepasste Preise anzeigen -->
+            <div id="discountPrices" class="hidden" style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+                <header>Der Versand läuft standartmässig über Jeanine Keller, falls dies anders gewünscht ist, schreiben Sie dies bitte ins Feld: Kommentar.</header>
+                <br>
+                <br>
+                <strong>Die Preise sind für Sie wie folgt:</strong>
+                <p>Thermomix Schlüsselanhänger: 5.-</p>
+                <p>=> Für alle anderen 3D-Drucke gelten die Standardpreise.</p>
+                <br>
+                <br>
+                <br>
+                <strong>Info zur Farbe:</strong>
+                <p>Die Zahl in der zweiten Klammer (nach der Materialangabe) zeigt, wie viele Thermomix's ich (noch) daraus drucken kann. Steht da ein x, heisst das, dass ich beinahe unbegrenzt viele davon drucken kann.</p>
+            </div>
+
+            <!-- Dynamische Felder für Rabattcode -->
+            <div id="paymentMethodField" class="hidden" style="margin-top: 10px;">
+                <label for="paymentMethod">Bezahlmethode *</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="Twint">Twint</option>
+                    <option value="bar an Jeanine Keller">bar an Jeanine Keller</option>
+                </select>
+            </div>
+
+            <div id="teamLeadField" class="hidden" style="margin-top: 10px;">
+                <label for="teamLead">Teamleitung *</label>
+                <input type="text" id="teamLead" name="teamLead" placeholder="Max Mustermann">
+            </div>
+
+            <!-- Produkte -->
+            <div id="productsContainer">
+            </div>
+
+            <!-- Produkt hinzufügen -->
+            <div class="add-product-btn-container">
+                <div class="add-product-btn">
+                    <a href="javascript:void(0);" onclick="addProduct()">Produkt hinzufügen</a>
+                </div>
+            </div>
+            <br>
+
+            <!-- Kommentar -->
+            <label for="comment">Kommentar (optional)</label>
+            <textarea id="comment" name="comment" rows="4" placeholder="Ihr Kommentar"></textarea>
+
+            <!-- Absenden -->
+            <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
+        <script>
+            // Funktion zur Aktualisierung der Farbauswahl
+            function updateColorOptions(selectElement, product) {
+                const defaultColors = [
+                    "Farbe",
+                    "weiss (1) - PLA",
+                    "schwarz (2) - PLA",
+                    "grau - PLA",
+                    "weiss (3) - TPU",
+                    "dunkelblau (4) - PET-G",
+                    "durchsichtig (5) - PET-G",
+                    "violett (7) - PLA",
+                    "grün (18) - PLA",
+                    "rot (22) - PLA"
+                ];
+
+                const specificColors = ["weiss (1) - PLA", "schwarz (2) - PLA", "grau - PLA"];
+
+                // Farben basierend auf Produkt setzen
+                const colorsToDisplay = (product === "Batterien Harasse AA" || product === "Batterien Harasse AAA")
+                    ? specificColors
+                    : defaultColors;
+
+                // Vorherige Optionen entfernen
+                selectElement.innerHTML = '';
+
+                // Neue Optionen hinzufügen
+                colorsToDisplay.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    selectElement.appendChild(option);
+                });
+            }
+
+
+
+            function getAvailableColors(product) {
+                // Prüfen, ob das Produkt der Thermomix-Schlüsselanhänger ist
+                if (product === 'Thermomix-Schlüsselanhänger') {
+                    return specialColors; // Spezialfarben anzeigen
+                } else {
+                    return normalColors; // Normale Farben anzeigen
+                }
+            }
+
+            const cyrb53 = (str, seed = 0) => {
+            let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+            for(let i = 0, ch; i < str.length; i++) {
+                ch = str.charCodeAt(i);
+                h1 = Math.imul(h1 ^ ch, 2654435761);
+                h2 = Math.imul(h2 ^ ch, 1597334677);
+            }
+            h1  = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+            h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+            h2  = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
+            h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+        
+            return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+        };
+            function handleDiscountCode() {
+                const discountCode = document.getElementById('discountCode').value;
+                const paymentMethodField = document.getElementById('paymentMethodField');
+                const teamLeadField = document.getElementById('teamLeadField');
+                const discountPrices = document.getElementById('discountPrices');
+        
+                if (cyrb53(discountCode) == 6284681665773807) {
+                    teamLeadField.classList.remove('hidden');
+                    paymentMethodField.classList.remove('hidden');
+                    discountPrices.classList.remove('hidden'); // Zeige die Preise an
+                } else {
+                    paymentMethodField.classList.add('hidden');
+                    teamLeadField.classList.add('hidden');
+                    discountPrices.classList.add('hidden'); // Verstecke die Preise
+                }
+            }
+        
+            let number = 1;
+        
+            function addProduct() {
+                const productsContainer = document.getElementById('productsContainer');
+
+                const productWrapper = document.createElement('div');
+                productWrapper.classList.add('product-wrapper');
+                productWrapper.style.marginBottom = "20px";
+
+                const separator = document.createElement('hr');
+                separator.style.border = "0";
+                separator.style.height = "1px";
+                separator.style.background = "#ccc";
+                separator.style.margin = "20px 0";
+
+                const newProductItem = document.createElement('div');
+                newProductItem.classList.add('product-item');
+                newProductItem.innerHTML = `
+                    <select name="productChoice${number}" required>
+                        <option value="">Produkt</option>
+                        <option value="Batterien Harasse AA">Batterien Harasse AA</option>
+                        <option value="Batterien Harasse AAA">Batterien Harasse AAA</option>
+                    </select>
+                    <select name="productColor${number}" required>
+                        <option value="Farbe">Farbe</option>
+                        <!-- Farben werden dynamisch hinzugefügt -->
+                    </select>
+                    <input type="number" name="productQuantity${number}" value="" required min="1" placeholder="Menge">
+                    <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
+                `;
+
+                productWrapper.appendChild(separator);
+                productWrapper.appendChild(newProductItem);
+
+                productsContainer.appendChild(productWrapper);
+
+                number++;
+
+                // Überwacht die Änderungen an der Produktwahl und passt die Farben an
+                const productSelect = newProductItem.querySelector(`select[name^="productChoice"]`);
+                const colorSelect = newProductItem.querySelector(`select[name^="productColor"]`);
+
+                productSelect.addEventListener('change', function() {
+                    updateColorOptions(colorSelect, productSelect.value);
+                });
+
+
+                // Initiale Farbauswahl
+                updateColorOptions(colorSelect, isDiscountActive(), productSelect.value);
+            }
+
+
+
+
+
+        
+            function removeProduct(button) {
+                const productWrapper = button.closest('.product-wrapper'); // Nächsten Wrapper finden
+                productWrapper.remove(); // Den gesamten Wrapper entfernen
+            }
+        
+            function submitForm() {
+                // Submit the form using EmailJS
+                emailjs.init('bekZiSDT9im5xlaPF'); // Deine Public Key
+                const form = document.getElementById('orderForm');
+
+                const products = [];
+
+                for (let i = 1; i < number; i++) {
+                    if (!form["productChoice" + i]) {
+                        continue;
+                    }
+
+                    products.push({
+                        choice: form["productChoice" + i].value,
+                        color: form["productColor" + i].value,
+                        quantity: form["productQuantity" + i].value
+                    });
+                }
+                emailjs.send('service_kfstl3c', 'template_15krpa2', {
+                    firma: form.firma.value,
+                    name: form.name.value,
+                    street: form.street.value,
+                    zipcode: form.zipcode.value,
+                    phone: form.phone.value,
+                    email: form.email.value,
+                    versandart: form.versandart.value,
+                    products: products,
+                    discountCode: form.discountCode.value,
+                    paymentMethod: form.discountCode.value === '(cyrb53(discountCode) == 6284681665773807)' ? form.paymentMethod.value : '',
+                    teamLead: form.discountCode.value === '(cyrb53(discountCode) == 6284681665773807)' ? form.teamLead.value : '',
+                    comment: form.comment.value
+                }).then(function(response) {
+                    console.log('Erfolgreich gesendet:', response);
+
+                    // Formular zurücksetzen
+                    form.reset();
+
+                    // Produkte zurücksetzen (dynamische Felder entfernen)
+                    const productsContainer = document.getElementById('productsContainer');
+                    productsContainer.innerHTML = '';  // Entfernt alle Produktfelder
+
+                    // Rabattcode-Feld zurücksetzen
+                    const discountCodeField = document.getElementById('discountCode');
+                    discountCodeField.value = '';  // Entfernt den Rabattcode
+
+                    // Preisanzeige und zusätzliche Felder verstecken
+                    document.getElementById('discountPrices').classList.add('hidden');
+                    document.getElementById('paymentMethodField').classList.add('hidden');
+                    document.getElementById('teamLeadField').classList.add('hidden');
+
+                    // Vorherige Nachricht entfernen, falls vorhanden (außer Dankesnachricht)
+                    const existingMessage = document.querySelector('.thank-you-message');
+                    if (existingMessage) {
+                        // Dankesnachricht bleibt
+                        return;
+                    }
+
+                    // Danke-Nachricht erstellen und anzeigen
+                    const thankYouMessage = document.createElement('div');
+                    thankYouMessage.className = 'thank-you-message';
+                    thankYouMessage.innerHTML = `
+                        <strong>Vielen Dank für Ihre Bestellung!</strong><br><br>
+                        Die momentane Lieferzeit beträgt zwischen 5 und 21 Tagen.
+                    `;
+                    form.parentNode.appendChild(thankYouMessage);
+                }, function(error) {
+                    console.log('Fehler beim Senden:', error);
+                    alert('Es gab einen Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
+                });
+            }
+
+            // Zusätzliche Farben, wenn Rabattcode gültig ist
+            const extraColors = [
+                "Farbe",
+                "violett (6) - PLA (1)",
+                "violett (8) - PLA (1)",
+                "violett/pink (9) - PLA (1)",
+                "dunkelblau (12) - PLA (1)",
+                "mittelblau (13) - PLA (1)",
+                "hellblau (15) - PLA (1)",
+                "leuchtgrün (16) - PLA (1)",
+                "leicht leuchtgrün (17) - PLA (1)",
+                "hellgrün (19) - PLA (1)",
+                "dunkelrot (20) - PLA (1)",
+                "dunkelrot (21) - PLA (1)",
+                "gelb (26) - PLA (1)",
+                "dunkelbraun (28) - PLA (6)",
+                "dunkelbraun (29) - PLA (1)",
+                "hellbraun (30) (x)",
+            ];
+
+            // Funktion zur Aktualisierung der Farbauswahl
+            // Funktion zur Aktualisierung der Farbauswahl
+            function updateColorOptions(selectElement, isDiscountActive, product) {
+                const defaultColors = [
+                    "Farbe",
+                    "weiss (1) - PLA",
+                    "schwarz (2) - PLA",
+                    "grau - PLA",
+                ];
+
+                const extraColors = [
+                    "Farbe",
+                    "violett (6) - PLA (1)",
+                    "violett (8) - PLA (1)",
+                    "violett/pink (9) - PLA (1)",
+                    "dunkelblau (12) - PLA (1)",
+                    "mittelblau (13) - PLA (1)",
+                    "hellblau (15) - PLA (1)",
+                    "leuchtgrün (16) - PLA (1)",
+                    "leicht leuchtgrün (17) - PLA (1)",
+                    "hellgrün (19) - PLA (1)",
+                    "dunkelrot (20) - PLA (1)",
+                    "dunkelrot (21) - PLA (1)",
+                    "gelb (26) - PLA (1)",
+                    "dunkelbraun (28) - PLA (6)",
+                    "dunkelbraun (29) - PLA (1)",
+                    "hellbraun (30) (x)"
+                ];
+
+                // Standardfarben für alle Produkte
+                const colorsToDisplay = product === 'Thermomix Schlüsselanhänger' && isDiscountActive ? extraColors : defaultColors;
+
+                // Clear current options
+                selectElement.innerHTML = '';
+
+                // Add color options to select dropdown
+                colorsToDisplay.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    selectElement.appendChild(option);
+                });
+            }
+
+
+
+            function monitorDiscountAndProduct() {
+                const discountCodeField = document.getElementById('discountCode');
+                const productsContainer = document.getElementById('productsContainer');
+
+                // Überprüft, ob der Rabattcode gültig ist
+                function isDiscountActive() {
+                    return cyrb53(discountCodeField.value) == 6284681665773807;
+                }
+
+                // Wenn sich das Produkt ändert, wird die Farbauswahl aktualisiert
+                productsContainer.addEventListener('change', event => {
+                    if (event.target.name.startsWith("productChoice")) {
+                        const productSelect = event.target;
+                        const colorSelect = productSelect.closest('.product-item').querySelector(`select[name^="productColor"]`);
+                        const isDiscountActiveFlag = isDiscountActive();
+                        updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
+                    }
+                });
+
+                // Rabattcode-Änderung überwachen und Farben entsprechend aktualisieren
+                discountCodeField.addEventListener('input', () => {
+                    // Durchläuft alle Produkte und überprüft, ob sie "Thermomix Schlüsselanhänger" sind
+                    const productItems = productsContainer.querySelectorAll('.product-item');
+                    productItems.forEach(item => {
+                        const productSelect = item.querySelector(`select[name^="productChoice"]`);
+                        const colorSelect = item.querySelector(`select[name^="productColor"]`);
+                        const isDiscountActiveFlag = isDiscountActive();
+                        updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
+                    });
+                });
+            }
+
+
+
+
+
+
+            // Monitor-Funktion beim Laden der Seite starten
+            monitorDiscountAndProduct();
+
+
+
+
+        </script>
+        
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const produktAuswahl = document.getElementById('produktAuswahl');
+          const farbeAuswahl = document.getElementById('farbeAuswahl');
+      
+          // Speichern Sie alle ursprünglichen Farboptionen
+          const alleFarben = Array.from(farbeAuswahl.options).map(option => option.cloneNode(true));
+      
+          produktAuswahl.addEventListener('change', function() {
+            const ausgewähltesProdukt = this.value;
+      
+            // Leeren Sie die aktuellen Farboptionen
+            farbeAuswahl.innerHTML = '';
+      
+            if (ausgewähltesProdukt === 'batterien_harasse_aa' || ausgewähltesProdukt === 'batterien_harasse_aaa') {
+              // Definierte Farben für die ausgewählten Produkte
+              const erlaubteFarben = ['grau_pla', 'schwarz1_pla', 'schwarz2_pla', 'weiss_pla'];
+              alleFarben.forEach(option => {
+                if (erlaubteFarben.includes(option.value)) {
+                  farbeAuswahl.appendChild(option.cloneNode(true));
+                }
+              });
+            } else {
+              // Alle Farben anzeigen für andere Produkte
+              alleFarben.forEach(option => {
+                farbeAuswahl.appendChild(option.cloneNode(true));
+              });
+            }
+      
+            // Optional: Setzen Sie die Farbauswahl zurück
+            farbeAuswahl.selectedIndex = 0;
+          });
+        });
+      </script>
+      
+</body>
+</html>
